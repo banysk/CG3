@@ -201,48 +201,38 @@ int main() {
 
     // =============================
     float vertices[] = {
-    -0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f,  0.5f, -0.5f,
-    0.5f,  0.5f, -0.5f,
-    -0.5f,  0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
+        -1.0f, 1.0f, -1.0f,//Point A 0
+        -1.0f, 1.0f, 1.0f,//Point B 1
+        1.0f, 1.0f, -1.0f,//Point C 2
+        1.0f, 1.0f, 1.0f,//Point D 3
 
-    -0.5f, -0.5f,  0.5f,
-    0.5f, -0.5f,  0.5f,
-    0.5f,  0.5f,  0.5f,
-    0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
-    -0.5f, -0.5f,  0.5f,
-
-    -0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
-
-    0.5f,  0.5f,  0.5f,
-    0.5f,  0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f,  0.5f,
-    0.5f,  0.5f,  0.5f,
-
-    -0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f,  0.5f,
-    0.5f, -0.5f,  0.5f,
-    -0.5f, -0.5f,  0.5f,
-    -0.5f, -0.5f, -0.5f,
-
-    -0.5f,  0.5f, -0.5f,
-    0.5f,  0.5f, -0.5f,
-    0.5f,  0.5f,  0.5f,
-    0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f, -0.5f
+        -1.0f, -1.0f, -1.0f,//Point E 4
+        -1.0f, -1.0f, 1.0f,//Point F 5
+        1.0f, -1.0f, -1.0f,//Point G 6
+        1.0f, -1.0f, 1.0f,//Point H 7
     };
+
+    unsigned int indices[] = {
+        /*Above ABC,BCD*/
+        0,1,2,
+        1,2,3,
+        /*Following EFG,FGH*/
+        4,5,6,
+        5,6,7,
+        /*Left ABF,AEF*/
+        0,1,5,
+        0,4,5,
+        /*Right side CDH,CGH*/
+        2,3,7,
+        2,6,7,
+        /*ACG,AEG*/
+        0,2,6,
+        0,4,6,
+        /*Behind BFH,BDH*/
+        1,5,7,
+        1,3,7
+    };
+
 
     // =================================== cube map
     std::vector<std::string> faces = {
@@ -254,65 +244,23 @@ int main() {
         "res/cube/negz.jpg",
     };
 
-    float skyboxVertices[] = {
-    -1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-    -1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f
-    };
-
-    VertexArrayObject skyboxVAO;
-    VertexBufferObject skyboxVBO(skyboxVertices, sizeof(skyboxVertices));
-    VertexArrayObject::link_vertex_attr(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
-
     // ===================================
     VertexArrayObject cube_VAO;
     VertexBufferObject locationVBO(_vertices, sizeof(_vertices));
     VertexArrayObject::link_vertex_attr(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) nullptr);
     VertexArrayObject::link_vertex_attr(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-
-    VertexArrayObject light_cube_VAO;
-    VertexBufferObject lightVBO(vertices, sizeof(vertices));
-    VertexArrayObject::link_vertex_attr(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
-
     // ========================================================================
+    VertexArrayObject cubeVAO;
+    VertexBufferObject cubeVBO(vertices, sizeof(vertices));
+    VertexArrayObject::link_vertex_attr(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // =============================================
     unsigned int cubemapTexture = loadCubemap(faces);
 
     shader.use();
@@ -366,8 +314,8 @@ int main() {
             glm::scale(glm::translate(Camera.get_model(), glm::vec3(x, y, z)), glm::vec3(3.0f))
         );
 
-        light_cube_VAO.bind_array();
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        cubeVAO.bind_array();
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         // model
         // Убеждаемся, что активировали шейдер прежде, чем настраивать uniform-переменные/объекты_рисования
         ourShader.use();
@@ -418,8 +366,8 @@ int main() {
         skyboxShader.set_mat4("projection", Camera.get_projection());
 
         // Куб скайбокса
-        skyboxVAO.bind_array();
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        cubeVAO.bind_array();
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         glDepthFunc(GL_LESS);
         // ================================================
         window.display();
